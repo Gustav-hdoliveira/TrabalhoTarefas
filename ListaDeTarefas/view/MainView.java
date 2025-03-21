@@ -2,19 +2,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package com.example.ListaDeTarefas.view;
+package ListaDeTarefas.view;
+
+import ListaDeTarefas.controller.TarefaController;
 
 /**
  *
  * @author LEONARDOESLABAOBARBO
  */
 public class MainView extends javax.swing.JFrame {
-
+    TarefaController controller;
     /**
      * Creates new form MainView
      */
     public MainView() {
         initComponents();
+        controller = new TarefaController();
     }
 
     /**
@@ -30,12 +33,13 @@ public class MainView extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         botaoExcluirTarefa = new javax.swing.JButton();
         botaoAlterarStatus = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        AddNewT = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         listaTarefas = new javax.swing.JList<>();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        ListarBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -63,14 +67,14 @@ public class MainView extends javax.swing.JFrame {
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(204, 204, 204));
-        jButton3.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 12)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(51, 51, 51));
-        jButton3.setText("Adicionar Nova Tarefa");
-        jButton3.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.white, java.awt.Color.white, java.awt.Color.darkGray, java.awt.Color.darkGray)));
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        AddNewT.setBackground(new java.awt.Color(204, 204, 204));
+        AddNewT.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 12)); // NOI18N
+        AddNewT.setForeground(new java.awt.Color(51, 51, 51));
+        AddNewT.setText("Adicionar Nova Tarefa");
+        AddNewT.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.white, java.awt.Color.white, java.awt.Color.darkGray, java.awt.Color.darkGray)));
+        AddNewT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                AddNewTActionPerformed(evt);
             }
         });
 
@@ -112,7 +116,7 @@ public class MainView extends javax.swing.JFrame {
                         .addGap(50, 50, 50)
                         .addComponent(botaoExcluirTarefa, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(AddNewT, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(32, 32, 32))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -135,7 +139,7 @@ public class MainView extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(botaoExcluirTarefa, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(AddNewT, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(1, 1, 1)))
                 .addGap(20, 20, 20))
         );
@@ -145,6 +149,15 @@ public class MainView extends javax.swing.JFrame {
         jLayeredPane1.add(jLabel2);
         jLabel2.setBounds(0, 0, 716, 0);
 
+        ListarBtn.setText("Listar Tarefas");
+        ListarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ListarBtnActionPerformed(evt);
+            }
+        });
+        jLayeredPane1.add(ListarBtn);
+        ListarBtn.setBounds(70, 30, 110, 23);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -152,7 +165,7 @@ public class MainView extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 644, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(50, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,12 +180,19 @@ public class MainView extends javax.swing.JFrame {
     }//GEN-LAST:event_botaoAlterarStatusActionPerformed
 
     private void botaoExcluirTarefaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoExcluirTarefaActionPerformed
-        // TODO add your handling code here:
+        int selectedId = listaTarefas.getSelectedIndex();
+        if(selectedId >= 0){
+            controller.excluirTarefa(selectedId);
+        }
     }//GEN-LAST:event_botaoExcluirTarefaActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void AddNewTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddNewTActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_AddNewTActionPerformed
+
+    private void ListarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListarBtnActionPerformed
+        controller.listarTarefas();
+    }//GEN-LAST:event_ListarBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -210,9 +230,10 @@ public class MainView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AddNewT;
+    private javax.swing.JButton ListarBtn;
     private javax.swing.JButton botaoAlterarStatus;
     private javax.swing.JButton botaoExcluirTarefa;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLayeredPane jLayeredPane1;

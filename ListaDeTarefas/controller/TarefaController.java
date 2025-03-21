@@ -2,15 +2,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.example.ListaDeTarefas.controller;
+package ListaDeTarefas.controller;
 
 /**
  *
  * @author GUSTAVOHENRIQUEDEOLI
  */
-import com.example.ListaDeTarefas.model.ConexaoSQLite;
-import com.example.ListaDeTarefas.model.Tarefa;
-import com.example.ListaDeTarefas.model.TarefaDAO;
+import ListaDeTarefas.model.TarefaDAO;
+import ListaDeTarefas.model.ConexaoSQLite;
+import ListaDeTarefas.model.Tarefa;
+import ListaDeTarefas.model.TarefaDAO;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,18 +39,18 @@ public class TarefaController {
     }
 
     // Método para atualizar o status de uma tarefa
-    public String atualizarStatus(int id, String statusTexto) {
+    public void atualizarStatus(int id, String statusTexto) {
         try {
             boolean status = "concluido".equalsIgnoreCase(statusTexto);
             tarefaDAO.atualizarStatus(conexao, id, status);
-            return "Status da tarefa atualizado com sucesso!";
+            JOptionPane.showMessageDialog(null, "Status da tarefa atualizado com sucesso!");
         } catch (Exception e) {
-            return "Erro ao atualizar status: " + e.getMessage();
+            JOptionPane.showMessageDialog(null, "Erro ao atualizar status: " + e.getMessage());
         }
     }
 
     // Método para listar todas as tarefas
-    public ArrayList<String> listarTarefas(int index) {
+    public ArrayList<String> listarTarefas() {
         ArrayList<String> ListatarefasVazia = new ArrayList();
         try{
             ArrayList<Tarefa> tarefas = tarefaDAO.listarTarefas(conexao); // Lista todas as tarefas
@@ -61,6 +62,16 @@ public class TarefaController {
             ListatarefasVazia.add("Erro ao recuperar as tarefas: " + e.getMessage());
         }
         return ListatarefasVazia;
+    }
+    
+    public void alterarTarefa(int index, String tituloAlt, String descricaoAlt, String data_vencimentoAlt, String statusAlt){
+        try{
+            
+            tarefaDAO.alterarTarefa(conexao, index, tituloAlt, descricaoAlt, data_vencimentoAlt, statusAlt);
+            JOptionPane.showMessageDialog(null, "Status da tarefa atualizado com sucesso!");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao atualizar tarefa!" + e.getMessage());
+        }
     }
 
     // Método para excluir uma tarefa

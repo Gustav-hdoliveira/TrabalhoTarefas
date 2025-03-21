@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.example.ListaDeTarefas.model;
+package ListaDeTarefas.model;
 
 /**
  *
@@ -83,11 +83,12 @@ public class TarefaDAO {
         }
     }
     
-    public void alterarTarefa(Connection conexao, int id, boolean status){
-        String sql = "ALTER (titulo, descricao, data_vencimento, status) FROM tarefas WHERE id = ?";
-        
+    public void alterarTarefa(Connection conexao, int index, String tituloAlt, String descricaoAlt, String data_vencimentoAlt, String statusAlt){
+        String sql = "UPDATE Tarefas SET titulo = " + tituloAlt + ", descricao = " + descricaoAlt + ", data_vencimento = " + data_vencimentoAlt + ", status = " + statusAlt + " WHERE id = ?";
+        String indexN = Integer.toString(index);
         try(PreparedStatement stmt = conexao.prepareStatement(sql)){
-            
+            stmt.setString(1, indexN);
+            stmt.executeUpdate();
         } catch (SQLException e){
             JOptionPane.showMessageDialog(null, "Erro ao atualizar tarefa: " + e.getMessage());
         }
