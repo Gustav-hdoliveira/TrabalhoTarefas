@@ -38,24 +38,30 @@ public class TarefaDAO {
     }
 
     // Método para listar todas as tarefas no banco de dados
-    public ArrayList<String> listarTarefas(Connection conexao) {
+    public ArrayList<Tarefa> listarTarefas(Connection conexao) {
         String sql = "SELECT * FROM tarefas";
-        ArrayList<String> lista = new ArrayList<>();
+        ArrayList<Tarefa> lista = new ArrayList<>();
         try (Statement stmt = conexao.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             
             // Itera sobre os resultados e exibe as informações de cada tarefa
             while (rs.next()) {
-                int id = rs.getInt("id");
+                //int id = rs.getInt("id");
                 String titulo = rs.getString("titulo");
                 String descricao = rs.getString("descricao");
                 String dataVencimento = rs.getString("data_vencimento");
                 String status = rs.getString("status");
+                Boolean statusBoolean;
                 
-                String contLista = "ID: " + id + ", Título: " + titulo + ", Descrição: " + descricao
-                        + ", Data de Vencimento: " + dataVencimento + ", Status: " + status;
+                if("Concluída".equals(status)){
+                    statusBoolean = true;
+                } else {
+                    statusBoolean = false;
+                }
+                
+                Tarefa novaTarefa = new Tarefa(titulo, descricao, dataVencimento, statusBoolean);
 
-                lista.add(contLista);
+                lista.add(novaTarefa);
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro ao listar tarefas: " + e.getMessage());
@@ -76,6 +82,16 @@ public class TarefaDAO {
             JOptionPane.showMessageDialog(null, "Erro ao atualizar status: " + e.getMessage());
         }
     }
+    
+    public void alterarTarefa(Connection conexao, int id, boolean status){
+        String sql = "ALTER (titulo, descricao, data_vencimento, status) FROM tarefas WHERE id = ?";
+        
+        try(PreparedStatement stmt = conexao.prepareStatement(sql)){
+            
+        } catch (SQLException e){
+            JOptionPane.showMessageDialog(null, "Erro ao atualizar tarefa: " + e.getMessage());
+        }
+    }
 
     // Método para excluir uma tarefa do banco de dados
     public void excluirTarefa(Connection conexao, int id) {
@@ -84,7 +100,6 @@ public class TarefaDAO {
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Tarefa excluída com sucesso!");
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro ao excluir tarefa: " + e.getMessage());
         }

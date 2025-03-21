@@ -16,7 +16,7 @@ public class Tarefa {
     private boolean status;       // Status da tarefa (false para pendente, true para concluída)
 
     // Construtor da classe
-    public Tarefa(int id, String titulo, String descricao, String dataVencimento, boolean status) {
+    public Tarefa(String titulo, String descricao, String dataVencimento, boolean status) {
         this.titulo = titulo;
         this.descricao = descricao;
         this.dataVencimento = dataVencimento;

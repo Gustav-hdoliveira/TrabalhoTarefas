@@ -14,6 +14,7 @@ import com.example.ListaDeTarefas.model.TarefaDAO;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 public class TarefaController {
     private TarefaDAO tarefaDAO;
@@ -28,7 +29,7 @@ public class TarefaController {
     public String adicionarTarefa(String titulo, String descricao, String dataVencimento, String statusTexto) {
         try {
             boolean status = "concluido".equalsIgnoreCase(statusTexto);
-            Tarefa tarefa = new Tarefa(0, titulo, descricao, dataVencimento, status);
+            Tarefa tarefa = new Tarefa(titulo, descricao, dataVencimento, status);
             tarefaDAO.adicionarTarefa(conexao, tarefa);
             return "Tarefa adicionada com sucesso!";
         } catch (Exception e) {
@@ -48,20 +49,33 @@ public class TarefaController {
     }
 
     // Método para listar todas as tarefas
-    public String listarTarefas(int index) {
-        ArrayList<String> tarefas = tarefaDAO.listarTarefas(conexao); // Lista todas as tarefas
-        return tarefas.get(index);
-      }
+    public ArrayList<String> listarTarefas(int index) {
+        ArrayList<String> ListatarefasVazia = new ArrayList();
+        try{
+            ArrayList<Tarefa> tarefas = tarefaDAO.listarTarefas(conexao); // Lista todas as tarefas
+            for (Tarefa tarefa : tarefas){
+                String detalhes = "ID: " + tarefa.getId() + " | " + "Titulo: " + tarefa.getTitulo() +"\n" + "Detalhes: " + tarefa.getDescricao() + "Data de Vencimento: " +  tarefa.getDataVencimento() + "Status: " + tarefa.getTitulo();
+                ListatarefasVazia.add(detalhes);
+            }
+        } catch (Exception e){
+            ListatarefasVazia.add("Erro ao recuperar as tarefas: " + e.getMessage());
+        }
+        return ListatarefasVazia;
     }
 
     // Método para excluir uma tarefa
-    public String excluirTarefa(int id) {
+    public void excluirTarefa(int id) {
+        
         try {
-            tarefaDAO.excluirTarefa(id);
+            ArrayList<Tarefa> tarefas = tarefaDAO.listarTarefas(conexao);
+            if(id >= 0 && id < tarefas.size()){
+                tarefaDAO.excluirTarefa(conexao, id);
+                JOptionPane.showMessageDialog(null, "Tarefa excluída com sucesso!");
+            }
+            JOptionPane.showMessageDialog(null, "Erro! Indisse invalido!");
             
         } catch (Exception e) {
-            return "Erro ao excluir tarefa: " + e.getMessage();
+            JOptionPane.showMessageDialog(null, "Erro ao excluir tarefa: " + e.getMessage());
         }
-        return "Tarefa excluída com sucesso!";
     }
 }
