@@ -21,7 +21,7 @@ public class ConexaoSQLite { // Declaração da classe que gerencia a conexão c
     // Método para conectar ao banco de dados
     public static Connection conectar() {
         Connection conexao = null; // Declara uma variável para armazenar a conexão
-        String url = "jdbc:sqlite:biblioteca.db"; // Define o caminho do banco de dados SQLite
+        String url = "jdbc:sqlite:bancoTarefa.db"; // Define o caminho do banco de dados SQLite
         
         try {
             // Tenta estabelecer a conexão com o banco de dados usando a URL fornecida

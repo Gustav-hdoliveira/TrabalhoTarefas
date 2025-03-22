@@ -5,6 +5,8 @@
 package ListaDeTarefas.view;
 
 import ListaDeTarefas.controller.TarefaController;
+import java.util.ArrayList;
+import javax.swing.DefaultListModel;
 
 /**
  *
@@ -12,12 +14,14 @@ import ListaDeTarefas.controller.TarefaController;
  */
 public class MainView extends javax.swing.JFrame {
     TarefaController controller;
+    DefaultListModel<String> modelo = new DefaultListModel<>();
     /**
      * Creates new form MainView
      */
     public MainView() {
         initComponents();
         controller = new TarefaController();
+        listaTarefas.setModel(modelo);
     }
 
     /**
@@ -181,7 +185,7 @@ public class MainView extends javax.swing.JFrame {
 
     private void botaoExcluirTarefaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoExcluirTarefaActionPerformed
         int selectedId = listaTarefas.getSelectedIndex();
-        if(selectedId >= 0){
+        if(selectedId != -1){
             controller.excluirTarefa(selectedId);
         }
     }//GEN-LAST:event_botaoExcluirTarefaActionPerformed
@@ -191,7 +195,17 @@ public class MainView extends javax.swing.JFrame {
     }//GEN-LAST:event_AddNewTActionPerformed
 
     private void ListarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListarBtnActionPerformed
-        controller.listarTarefas();
+        
+        System.out.println( listaTarefas.getSelectedIndex());
+        modelo.clear();
+
+        // Obtém a lista formatada de livros do Controller
+        ArrayList<String> listaLivros = controller.listarTarefas();
+    
+    
+        for (String livro : listaLivros) {
+            modelo.addElement(livro);
+        }
     }//GEN-LAST:event_ListarBtnActionPerformed
 
     /**

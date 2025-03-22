@@ -18,7 +18,7 @@ public class CriarTabela {
             "titulo VARCHAR(255) NOT NULL," +
             "descricao TEXT," +
             "data_vencimento DATE," +
-            "status ENUM('pendente', 'concluido') DEFAULT 'pendente')";
+            "status varchar(100));";
         
         try (Statement stmt = conexao.createStatement()) { 
             stmt.execute(sqlt); // Executa o comando SQL para criar a tabela
