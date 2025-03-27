@@ -60,7 +60,7 @@ public class TarefaDAO {
                 }
                 
                 Tarefa novaTarefa = new Tarefa(titulo, descricao, dataVencimento, statusBoolean);
-
+                novaTarefa.setId(rs.getInt("id"));
                 lista.add(novaTarefa);
             }
         } catch (SQLException e) {
@@ -70,7 +70,7 @@ public class TarefaDAO {
     }
 
     // Método para atualizar o status de uma tarefa
-    public void atualizarStatus(Connection conexao, int id, boolean status) {
+    public void atualizarStatus1(Connection conexao, int id, boolean status) {
         String sql = "UPDATE tarefas SET status = ? WHERE id = ?";
         
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
@@ -83,8 +83,40 @@ public class TarefaDAO {
         }
     }
     
+    public String getStatus(Connection conexao, int id){
+        String sql = "SELECT status FROM tarefas WHERE id = ?";
+        String status = "";
+        
+        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
+        stmt.setInt(1, id);  // Define o ID como parâmetro na consulta
+        ResultSet rs = stmt.executeQuery();  // Use executeQuery para consultas SELECT
+
+        if (rs.next()) {  // Verifica se há um resultado
+            status = rs.getString("status");  // Recupera o valor da coluna "status"
+            JOptionPane.showMessageDialog(null, "Status da tarefa: " + status);
+            
+        } else {
+            JOptionPane.showMessageDialog(null, "Tarefa não encontrada com o ID: " + id);
+        }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao recuperar status: " + e.getMessage());
+        }
+        return status;
+    }
+    
+    public void atualizarStatus2(Connection conexao, int id, String status){
+        String sql = "UPDATE tarefas SET status WHERE id = ?";
+        String indexN = Integer.toString(id);
+        try(PreparedStatement stmt = conexao.prepareStatement(sql)){
+            stmt.setString(1, indexN);
+            stmt.executeUpdate();
+        } catch (SQLException e){
+            JOptionPane.showMessageDialog(null, "Erro ao atualizar status: " + e.getMessage());
+        }
+    }
+    
     public void alterarTarefa(Connection conexao, int index, String tituloAlt, String descricaoAlt, String data_vencimentoAlt, String statusAlt){
-        String sql = "UPDATE Tarefas SET titulo = " + tituloAlt + ", descricao = " + descricaoAlt + ", data_vencimento = " + data_vencimentoAlt + ", status = " + statusAlt + " WHERE id = ?";
+        String sql = "UPDATE tarefas SET titulo = " + tituloAlt + ", descricao = " + descricaoAlt + ", data_vencimento = " + data_vencimentoAlt + ", status = " + statusAlt + " WHERE id = ?";
         String indexN = Integer.toString(index);
         try(PreparedStatement stmt = conexao.prepareStatement(sql)){
             stmt.setString(1, indexN);
@@ -97,6 +129,7 @@ public class TarefaDAO {
     // Método para excluir uma tarefa do banco de dados
     public void excluirTarefa(Connection conexao, int id) {
         String sql = "DELETE FROM tarefas WHERE id = ?";
+        
         
         try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
             stmt.setInt(1, id);

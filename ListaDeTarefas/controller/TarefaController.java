@@ -18,6 +18,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 public class TarefaController {
+
     private TarefaDAO tarefaDAO;
     private Connection conexao;
 
@@ -41,8 +42,8 @@ public class TarefaController {
     // Método para atualizar o status de uma tarefa
     public void atualizarStatus(int id, String statusTexto) {
         try {
-            boolean status = "concluido".equalsIgnoreCase(statusTexto);
-            tarefaDAO.atualizarStatus(conexao, id, status);
+            String status = tarefaDAO.getStatus(conexao, id);
+            tarefaDAO.atualizarStatus2(conexao, id,status);
             JOptionPane.showMessageDialog(null, "Status da tarefa atualizado com sucesso!");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao atualizar status: " + e.getMessage());
@@ -52,21 +53,21 @@ public class TarefaController {
     // Método para listar todas as tarefas
     public ArrayList<String> listarTarefas() {
         ArrayList<String> ListatarefasVazia = new ArrayList();
-        try{
+        try {
             ArrayList<Tarefa> tarefas = tarefaDAO.listarTarefas(conexao); // Lista todas as tarefas
-            for (Tarefa tarefa : tarefas){
-                String detalhes = "ID: " + tarefa.getId() + " | " + "Titulo: " + tarefa.getTitulo() +"\n" + "Detalhes: " + tarefa.getDescricao() + "Data de Vencimento: " +  tarefa.getDataVencimento() + "Status: " + tarefa.getTitulo();
+            for (Tarefa tarefa : tarefas) {
+                String detalhes = "ID: " + tarefa.getId() + " | " + "Titulo: " + tarefa.getTitulo() + "\n" + "Detalhes: " + tarefa.getDescricao() + "Data de Vencimento: " + tarefa.getDataVencimento() + "Status: " + tarefa.getTitulo();
                 ListatarefasVazia.add(detalhes);
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             ListatarefasVazia.add("Erro ao recuperar as tarefas: " + e.getMessage());
         }
         return ListatarefasVazia;
     }
-    
-    public void alterarTarefa(int index, String tituloAlt, String descricaoAlt, String data_vencimentoAlt, String statusAlt){
-        try{
-            
+
+    public void alterarTarefa(int index, String tituloAlt, String descricaoAlt, String data_vencimentoAlt, String statusAlt) {
+        try {
+
             tarefaDAO.alterarTarefa(conexao, index, tituloAlt, descricaoAlt, data_vencimentoAlt, statusAlt);
             JOptionPane.showMessageDialog(null, "Status da tarefa atualizado com sucesso!");
         } catch (Exception e) {
@@ -76,15 +77,15 @@ public class TarefaController {
 
     // Método para excluir uma tarefa
     public void excluirTarefa(int id) {
-        
         try {
             ArrayList<Tarefa> tarefas = tarefaDAO.listarTarefas(conexao);
-            if(id >= 0 && id < tarefas.size()){
-                tarefaDAO.excluirTarefa(conexao, id);
+            if (id >= 0 && id < tarefas.size()) {
+                int idTarefa = tarefas.get(id).getId();
+                tarefaDAO.excluirTarefa(conexao, idTarefa);
                 JOptionPane.showMessageDialog(null, "Tarefa excluída com sucesso!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Erro! Índice inválido!");  // Mover a mensagem de erro para aqui
             }
-            JOptionPane.showMessageDialog(null, "Erro! Indisse invalido!");
-            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao excluir tarefa: " + e.getMessage());
         }

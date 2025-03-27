@@ -42,8 +42,8 @@ public class MainView extends javax.swing.JFrame {
         listaTarefas = new javax.swing.JList<>();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         ListarBtn = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -84,6 +84,7 @@ public class MainView extends javax.swing.JFrame {
 
         listaTarefas.setBackground(new java.awt.Color(51, 51, 51));
         listaTarefas.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED, java.awt.Color.white, java.awt.Color.white, java.awt.Color.darkGray, java.awt.Color.darkGray));
+        listaTarefas.setForeground(new java.awt.Color(102, 255, 0));
         jScrollPane1.setViewportView(listaTarefas);
 
         jPanel2.setBackground(new java.awt.Color(102, 204, 255));
@@ -150,8 +151,6 @@ public class MainView extends javax.swing.JFrame {
 
         jLayeredPane1.add(jPanel1);
         jPanel1.setBounds(70, 60, 570, 230);
-        jLayeredPane1.add(jLabel2);
-        jLabel2.setBounds(0, 0, 716, 0);
 
         ListarBtn.setText("Listar Tarefas");
         ListarBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -162,25 +161,29 @@ public class MainView extends javax.swing.JFrame {
         jLayeredPane1.add(ListarBtn);
         ListarBtn.setBounds(70, 30, 110, 23);
 
+        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\GUSTAVOHENRIQUEDEOLI\\Downloads\\5.jpg")); // NOI18N
+        jLayeredPane1.add(jLabel2);
+        jLabel2.setBounds(0, 0, 690, 380);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 644, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(50, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 682, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void botaoAlterarStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoAlterarStatusActionPerformed
-        
+        int selectedId = listaTarefas.getSelectedIndex();
     }//GEN-LAST:event_botaoAlterarStatusActionPerformed
 
     private void botaoExcluirTarefaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoExcluirTarefaActionPerformed
@@ -191,7 +194,8 @@ public class MainView extends javax.swing.JFrame {
     }//GEN-LAST:event_botaoExcluirTarefaActionPerformed
 
     private void AddNewTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddNewTActionPerformed
-        // TODO add your handling code here:
+        new TarefaForm(0,"","","","").setVisible(true);
+        this.dispose(); // Fecha a tela de login
     }//GEN-LAST:event_AddNewTActionPerformed
 
     private void ListarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ListarBtnActionPerformed

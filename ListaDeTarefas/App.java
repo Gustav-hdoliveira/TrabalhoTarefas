@@ -5,6 +5,7 @@ package ListaDeTarefas;
 
 import ListaDeTarefas.model.ConexaoSQLite;
 import ListaDeTarefas.model.CriarTabela;
+import ListaDeTarefas.model.TarefaDAO;
 import ListaDeTarefas.view.MainView;
 import java.sql.Connection;
 
@@ -14,6 +15,7 @@ public class App {
         Connection conexao = ConexaoSQLite.conectar();
         
         CriarTabela.criarTabelaTarefas(conexao);
+        TarefaDAO tdao = new TarefaDAO();
         
         new MainView().setVisible(true);
     }

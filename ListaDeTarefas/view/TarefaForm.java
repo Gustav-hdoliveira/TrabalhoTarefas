@@ -8,25 +8,28 @@ import ListaDeTarefas.controller.TarefaController;
 import ListaDeTarefas.model.ConexaoSQLite;
 import java.sql.Connection;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author LEONARDOESLABAOBARBO
  */
 public class TarefaForm extends javax.swing.JFrame {
+    int id;
     String status;
     private Connection conexao;
     TarefaController controller =  new TarefaController();
     /**
      * Creates new form TarefaForm
      */
-    public TarefaForm(String titulo, String descricao, String data_vencimento, String status) {
+    public TarefaForm(int id, String titulo, String descricao, String data_vencimento, String status) {
         initComponents();
         conexao = ConexaoSQLite.conectar();
         TituloTxtF.setText(titulo);
         DescricaoTxtF.setText(descricao);
         Data_vencimentoTxtF.setText(data_vencimento);
         this.status = status;
+        this.id = id;
     }
     
     
@@ -40,9 +43,9 @@ public class TarefaForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        botaoAlterarStatus = new javax.swing.JButton();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         jPanel1 = new javax.swing.JPanel();
-        botaoAlterarStatus = new javax.swing.JButton();
         AddBtn = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -55,28 +58,31 @@ public class TarefaForm extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         ConcluidoBtn = new javax.swing.JButton();
         PendenteBtn = new javax.swing.JButton();
+        Voltar = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
+        AtualizarBTN = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
 
         botaoAlterarStatus.setBackground(new java.awt.Color(204, 204, 204));
         botaoAlterarStatus.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 12)); // NOI18N
         botaoAlterarStatus.setForeground(new java.awt.Color(51, 51, 51));
         botaoAlterarStatus.setText("Alterar Status");
-        botaoAlterarStatus.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(null, null), javax.swing.BorderFactory.createBevelBorder(null, java.awt.Color.white, java.awt.Color.white, java.awt.Color.darkGray, java.awt.Color.darkGray)));
+        botaoAlterarStatus.setBorder(null);
         botaoAlterarStatus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botaoAlterarStatusActionPerformed(evt);
             }
         });
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
+
         AddBtn.setBackground(new java.awt.Color(204, 204, 204));
         AddBtn.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 12)); // NOI18N
         AddBtn.setForeground(new java.awt.Color(51, 51, 51));
         AddBtn.setText("Adicionar Nova Tarefa");
-        AddBtn.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(null, null), javax.swing.BorderFactory.createBevelBorder(null, java.awt.Color.white, java.awt.Color.white, java.awt.Color.darkGray, java.awt.Color.darkGray)));
+        AddBtn.setBorder(null);
         AddBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AddBtnActionPerformed(evt);
@@ -106,7 +112,7 @@ public class TarefaForm extends javax.swing.JFrame {
         );
 
         TituloTxtF.setFont(new java.awt.Font("Microsoft Sans Serif", 0, 12)); // NOI18N
-        TituloTxtF.setBorder(javax.swing.BorderFactory.createBevelBorder(null, java.awt.Color.lightGray, java.awt.Color.lightGray, java.awt.Color.darkGray, java.awt.Color.darkGray));
+        TituloTxtF.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED, java.awt.Color.lightGray, java.awt.Color.lightGray, java.awt.Color.darkGray, java.awt.Color.darkGray));
         TituloTxtF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 TituloTxtFActionPerformed(evt);
@@ -143,6 +149,20 @@ public class TarefaForm extends javax.swing.JFrame {
             }
         });
 
+        Voltar.setText("Voltar");
+        Voltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VoltarActionPerformed(evt);
+            }
+        });
+
+        AtualizarBTN.setText("Atualizar");
+        AtualizarBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AtualizarBTNActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -152,19 +172,12 @@ public class TarefaForm extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 716, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(botaoAlterarStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 237, Short.MAX_VALUE)
-                        .addComponent(AddBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(Data_vencimentoTxtF, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(DescricaoTxtF, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(TituloTxtF, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 536, Short.MAX_VALUE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -175,7 +188,21 @@ public class TarefaForm extends javax.swing.JFrame {
                             .addComponent(jLabel4)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(20, 20, 20)
+                                .addComponent(AtualizarBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(66, 66, 66)
+                                .addComponent(Voltar)
+                                .addGap(34, 34, 34)
+                                .addComponent(AddBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(Data_vencimentoTxtF, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(DescricaoTxtF, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(TituloTxtF, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 536, Short.MAX_VALUE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -200,19 +227,21 @@ public class TarefaForm extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ConcluidoBtn)
                     .addComponent(PendenteBtn))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(botaoAlterarStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(AddBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(1, 1, 1)))
-                .addGap(20, 20, 20))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(AddBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Voltar)
+                    .addComponent(AtualizarBTN))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jLayeredPane1.add(jPanel1);
         jPanel1.setBounds(70, 60, 570, 310);
-        jLayeredPane1.add(jLabel2);
-        jLabel2.setBounds(0, 0, 716, 0);
+
+        jLabel7.setIcon(new javax.swing.ImageIcon("C:\\Users\\GUSTAVOHENRIQUEDEOLI\\Downloads\\5.jpg")); // NOI18N
+        jLayeredPane1.add(jLabel7);
+        jLabel7.setBounds(0, 0, 680, 430);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -252,6 +281,19 @@ public class TarefaForm extends javax.swing.JFrame {
         status = "Concluido";
     }//GEN-LAST:event_ConcluidoBtnActionPerformed
 
+    private void VoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VoltarActionPerformed
+        new MainView().setVisible(true);
+        this.dispose(); // Fecha a tela de login
+    }//GEN-LAST:event_VoltarActionPerformed
+
+    private void AtualizarBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AtualizarBTNActionPerformed
+        if(id > -1){
+            controller.alterarTarefa(id, TituloTxtF.getText(), DescricaoTxtF.getText(), Data_vencimentoTxtF.getText(), status);
+        } else {
+            JOptionPane.showMessageDialog(null, "Erro, nenhum id de tarefa celecionado para alteração!");
+        }
+    }//GEN-LAST:event_AtualizarBTNActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -282,18 +324,20 @@ public class TarefaForm extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TarefaForm("titulo", "descricao", "data", "Concluido").setVisible(true);
+                new TarefaForm(0,"titulo", "descricao", "data", "Concluido").setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddBtn;
+    private javax.swing.JButton AtualizarBTN;
     private javax.swing.JButton ConcluidoBtn;
     private javax.swing.JTextField Data_vencimentoTxtF;
     private javax.swing.JTextField DescricaoTxtF;
     private javax.swing.JButton PendenteBtn;
     private javax.swing.JTextField TituloTxtF;
+    private javax.swing.JButton Voltar;
     private javax.swing.JButton botaoAlterarStatus;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -301,6 +345,7 @@ public class TarefaForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
